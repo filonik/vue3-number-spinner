@@ -1,0 +1,36 @@
+{
+  "name": "vue3-number-spinner",
+  "version": "0.0.1",
+  "description": " Vue 3 UI component: a number input field that can be controlled with mouse and keyboard",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/vue3-number-spinner.umd.js",
+  "module": "./dist/vue3-number-spinner.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vue3-number-spinner.es.js",
+      "require": "./dist/vue3-number-spinner.umd.js"
+    }
+  },
+
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "publish": "npm publish --access public",
+    "serve:example": "vite --config ./vite.config.js serve example",
+    "build:example": "NODE_ENV=production vite build example"
+  },
+  "dependencies": {
+    "vue": "^3.2.16"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.2.5",
+    "eslint": "^7.31.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-vue": "^7.14.0",
+    "prettier": "^2.3.2",
+    "vite": "^2.4.3"
+  }
+}
