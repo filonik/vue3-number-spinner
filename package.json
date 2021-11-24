@@ -1,36 +1,35 @@
 {
   "name": "vue3-number-spinner",
-  "version": "0.0.1",
-  "description": " Vue 3 UI component: a number input field that can be controlled with mouse and keyboard",
+  "version": "0.0.5",
+  "description": "Vue 3 UI component: a number input field that can be controlled with mouse and keyboard",
+  "repository": "https://github.com/filonik/vue3-number-spinner.git",
+  "author": "Daniel Filonik",
+  "license": "MIT",
   "files": [
-    "dist"
+    "dist/*.js"
   ],
-  "main": "./dist/vue3-number-spinner.umd.js",
-  "module": "./dist/vue3-number-spinner.es.js",
-  "exports": {
-    ".": {
-      "import": "./dist/vue3-number-spinner.es.js",
-      "require": "./dist/vue3-number-spinner.umd.js"
-    }
-  },
-
+  "main": "dist/vue3-number-spinner.common.js",
+  "unpkg": "dist/vue3-number-spinner.umd.min.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "vite preview",
-    "publish": "npm publish --access public",
-    "serve:example": "vite --config ./vite.config.js serve example",
-    "build:example": "NODE_ENV=production vite build example"
+    "serve": "vue-cli-service serve",
+    "lint": "vue-cli-service lint",
+    "build": "vue-cli-service build --target lib --name vue3-number-spinner ./src/main.js"
   },
   "dependencies": {
-    "vue": "^3.2.16"
+    "core-js": "^3.6.5",
+    "vue": "^3.0.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.2.5",
-    "eslint": "^7.31.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-vue": "^7.14.0",
-    "prettier": "^2.3.2",
-    "vite": "^2.4.3"
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "@vue/eslint-config-prettier": "^6.0.0",
+    "autoprefixer": "^9.8.8",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-vue": "^7.0.0",
+    "prettier": "^2.3.2"
   }
 }
