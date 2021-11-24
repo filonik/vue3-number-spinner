@@ -1,6 +1,6 @@
 {
   "name": "vue3-number-spinner",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Vue 3 UI component: a number input field that can be controlled with mouse and keyboard",
   "repository": "https://github.com/filonik/vue3-number-spinner.git",
   "author": "Daniel Filonik",
