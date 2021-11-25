@@ -75,7 +75,7 @@
     </div>
 
     <hr />
-    <!--
+
     <div class="row">
       <div class="explanation">
         Get value through input and change events.<br />
@@ -89,13 +89,13 @@
           :min="-100"
           :max="100"
           @change="
-            (ev) => {
-              value6change = ev.detail
+            (value) => {
+              value6change = value
             }
           "
           @input="
-            (ev) => {
-              value6input = ev.detail
+            (value) => {
+              value6input = value
             }
           "
           @keyup="
@@ -105,15 +105,15 @@
             }
           "
           @editstart="
-            (ev) => {
+            () => {
               value6editmode = true
-              console.log(ev)
+              console.log('editstart')
             }
           "
           @editend="
-            (ev) => {
+            () => {
               value6editmode = false
-              console.log(ev)
+              console.log('editend')
             }
           "
         />
@@ -121,7 +121,6 @@
     </div>
 
     <hr />
--->
 
     <div class="row">
       <div class="explanation">
@@ -258,13 +257,15 @@ export default {
       return hours * 60 + minutes
     }
 
-    return { ...toRefs(state), addDollar, removeDollar, formatMinutesToTime, parseTimeToMinutes }
+    return { ...toRefs(state), console, addDollar, removeDollar, formatMinutesToTime, parseTimeToMinutes }
   },
 }
 </script>
 
 <style>
 #app {
+  display: flex;
+  justify-content: center;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -301,5 +302,41 @@ button {
   margin: 5px;
   height: 1.6em;
   padding: 0 0.4em;
+}
+
+/* custom class for the number spinner */
+
+.number-spinner-custom {
+  display: inline-block;
+  box-sizing: border-box;
+  font-variant-numeric: tabular-nums;
+  width: 60px;
+  height: 25px;
+  margin: 0px;
+  padding: 3px;
+  background-color: #06f9;
+  color: white;
+  border-radius: 0px;
+  border: none;
+  text-align: right;
+  cursor: initial;
+}
+
+.number-spinner-custom:focus {
+  background-color: #000;
+  outline: none;
+}
+
+.number-spinner-custom.fast {
+  background-color: #0ccb;
+}
+
+.number-spinner-custom.slow {
+  background-color: #66fb;
+}
+
+.number-spinner-custom.editing {
+  background-color: #f00;
+  cursor: default;
 }
 </style>
