@@ -14,4 +14,26 @@ npm install vue3-number-spinner
 
 ## Usage
 
-TODO
+```vue
+<template>
+  <number-spinner v-model="value" :min="0" :max="100" />
+</template>
+
+<script>
+import { ref } from 'vue'
+
+import { NumberSpinner } from 'vue3-number-spinner'
+
+export default {
+  name: 'App',
+  components: {
+    NumberSpinner,
+  },
+  setup() {
+    const value = ref(50)
+
+    return { value }
+  },
+}
+</script>
+```
