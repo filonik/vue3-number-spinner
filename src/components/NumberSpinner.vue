@@ -5,8 +5,11 @@
     v-bind="$attrs"
     :style="style"
     :class="{
+      default: !$attrs['class'],
       drag: true,
       dragging,
+      fast: stepFactor > 1,
+      slow: stepFactor < 1,
       focus: dragFocussed,
       inactive: editing,
     }"
@@ -17,6 +20,8 @@
     @touchstart.stop.prevent="touchstartHandler"
     @focus="dragFocusHandler"
     @blur="dragBlurHandler"
+    @keydown="keydownHandler"
+    @keyup="keyupHandler"
   />
   <input
     ref="editElement"
@@ -24,6 +29,7 @@
     v-bind="$attrs"
     :style="style"
     :class="{
+      default: !$attrs['class'],
       edit: true,
       editing,
       focus: editFocussed,
@@ -155,6 +161,9 @@ export default {
       defaultCursor: computed(() => (props.horizontal ? (props.vertical ? 'move' : 'ew-resize') : 'ns-resize')),
       style: computed(() => {
         let style = props.mainStyle ?? ''
+        style += !state.editing && state.stepFactor > 1 && props.fastStyle ? ';' + props.fastStyle : ''
+        style += !state.editing && state.stepFactor < 1 && props.slowStyle ? ';' + props.slowStyle : ''
+        style += state.dragging && props.draggingStyle ? ';' + props.draggingStyle : ''
         style += state.editing && props.editingStyle ? ';' + props.editingStyle : ''
         style += !state.editing ? ';cursor:' + (props.cursor ?? state.defaultCursor) : ''
         return style
@@ -168,7 +177,27 @@ export default {
 
     updateValues(props.modelValue)
 
-    const { htmlNode, dragging } = toRefs(state)
+    const { modelValue } = toRefs(props)
+    watch(modelValue, (newValue, oldValue) => {
+      //console.log('value', newValue, oldValue)
+      if (!state.editing && !state.dragging) {
+        updateValues(newValue)
+      }
+    })
+
+    const { htmlNode, editing, dragging, dragFocussed, altPressed, shiftPressed } = toRefs(state)
+
+    watch([dragFocussed, editing, altPressed, shiftPressed], () => {
+      state.stepFactor = 1
+      if (state.dragFocussed && !state.editing) {
+        if (state.altPressed && state.shiftPressed) {
+          state.stepFactor = 10
+        } else if (state.altPressed) {
+          state.stepFactor = 0.1
+        }
+      }
+    })
+
     watch([htmlNode, dragging], () => {
       if (state.htmlNode) {
         if (state.dragging) {
@@ -178,14 +207,6 @@ export default {
           state.htmlNode.style.cursor = state.htmlNodeOriginalCursor
           // removeClass(htmlNode, cursorClass);
         }
-      }
-    })
-
-    const { modelValue } = toRefs(props)
-    watch(modelValue, (newValue, oldValue) => {
-      //console.log('value', newValue, oldValue)
-      if (!state.editing && !state.dragging) {
-        updateValues(newValue)
       }
     })
 
@@ -484,6 +505,48 @@ export default {
 </script>
 
 <style scoped>
+.default {
+  display: inline-block;
+  box-sizing: border-box;
+  font-variant-numeric: tabular-nums;
+  background-color: white;
+  color: black;
+  width: 4em;
+  height: 1.6em;
+  margin: 0px;
+  padding: 0.25em;
+  border: 0.075em solid #0004;
+  border-radius: 0.15em;
+  text-align: right;
+  vertical-align: baseline;
+  cursor: ew-resize;
+}
+
+.default:focus {
+  border: 0.075em solid #06f;
+  outline: none; /* removes the standard focus border */
+}
+
+.default.fast {
+  border-top-width: 0.15em;
+  padding-top: 0.175em;
+}
+
+.default.slow {
+  border-bottom-width: 0.15em;
+  padding-bottom: 0.175em;
+}
+
+.default.dragging {
+  border-color: #04c;
+}
+
+.default.editing {
+  cursor: initial;
+}
+
+/* mandatory css styles, not customizable */
+
 .drag {
   user-select: none;
 }
